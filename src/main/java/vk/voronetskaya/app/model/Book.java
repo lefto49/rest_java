@@ -6,10 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "book")
 public class Book {
     @Id
-    private long id;
-    private final String name;
-    private final String author;
+    private int id;
+    private String name;
+    private String author;
     private int quantity;
+
+    public Book() {
+
+    }
 
     public Book(Book other) {
         this.id = other.id;
@@ -24,7 +28,7 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -42,5 +46,9 @@ public class Book {
 
     public void decreaseQuantity(int decreaseBy) {
         quantity -= decreaseBy;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -1,7 +1,5 @@
 package vk.voronetskaya.app.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vk.voronetskaya.app.model.Account;
@@ -30,5 +28,11 @@ public class AccountService {
     public void configureId(Account account) {
         int index = (int)(accountRepo.count() - 1);
         account.setId(accountRepo.findAll().get(index).getId() + 1);
+    }
+
+    public void updateAccount(Account account, long decreaseBalanceBy) {
+        accountRepo.delete(account);
+        account.decreaseBalance(decreaseBalanceBy);
+        accountRepo.insert(account);
     }
 }

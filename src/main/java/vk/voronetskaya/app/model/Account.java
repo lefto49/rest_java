@@ -8,16 +8,20 @@ import java.util.List;
 @Document(collection = "account")
 public class Account {
     @Id
-    private long id;
-    private final List<Book> books;
+    private int id;
+    private List<Book> books;
     private long balance;
+
+    public Account() {
+
+    }
 
     public Account(long balance, List<Book> books) {
         this.books = books;
         this.balance = balance;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -29,7 +33,7 @@ public class Account {
         return balance;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

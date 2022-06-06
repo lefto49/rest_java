@@ -17,8 +17,8 @@ public class MarketService {
     @Autowired
     private MarketRepository marketRepo;
     private static final Logger LOGGER = LogManager.getLogger();
-
-    private final AccountService accountService = new AccountService();
+    @Autowired
+    private AccountService accountService;
 
     public Market getMarket() {
         var markets = marketRepo.findAll();
@@ -39,7 +39,8 @@ public class MarketService {
             throw new IllegalArgumentException("User with such an id does not exist");
         }
 
-        Optional<Product> optionalProduct = getMarket().getProductById(productId);
+        Market market = getMarket();
+        Optional<Product> optionalProduct = market.getProductById(productId);
         if (optionalProduct.isEmpty()) {
             LOGGER.error(String.format("Cannot complete deal with account with id %d and product with id %d as product with " +
                     "such an id does not exist", accountId, productId));
@@ -59,7 +60,13 @@ public class MarketService {
             throw new IllegalArgumentException("There is not enough money at account's disposal");
         }
 
-        account.decreaseBalance((long) product.getPrice() * amount);
         product.decreaseAmount(amount);
+        marketRepo.deleteAll();
+        marketRepo.insert(market);
+        accountService.updateAccount(account, (long) product.getPrice() * amount);
+    }
+
+    public void createMarket(Market market) {
+        marketRepo.insert(market);
     }
 }

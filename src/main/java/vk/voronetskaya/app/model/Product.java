@@ -7,8 +7,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product {
     @Id
     private int id;
-    private final Book book;
-    private final int price;
+    private Book book;
+    private int price;
+
+    public Product() {
+
+    }
 
     public Product(int id, Book book, int price) {
         this.id = id;
@@ -34,5 +38,9 @@ public class Product {
 
     public void decreaseAmount(int decreaseBy) {
         book.decreaseQuantity(decreaseBy);
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
